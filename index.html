@@ -622,8 +622,127 @@
   }
   .fade-up.visible { opacity: 1; transform: none; }
 </style>
+<style>
+  #pw-overlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  #pw-overlay.hidden { display: none; }
+  .pw-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2.5rem 2rem;
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    text-align: center;
+  }
+  .pw-title {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: -0.02em;
+  }
+  .pw-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+    line-height: 1.6;
+    margin-top: -0.4rem;
+  }
+  .pw-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.9);
+    font-size: 16px;
+    font-family: var(--sans);
+    text-align: center;
+    letter-spacing: 0.1em;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .pw-input:focus { border-color: var(--rust); }
+  .pw-input::placeholder { color: rgba(255,255,255,0.2); letter-spacing: 0; }
+  .pw-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--rust);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .pw-btn:hover { background: #A8420A; }
+  .pw-error {
+    font-size: 13px;
+    color: #E07070;
+    min-height: 18px;
+  }
+  .pw-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,0.2);
+  }
+</style>
 </head>
 <body>
+
+<!-- PASSWORD OVERLAY -->
+<div id="pw-overlay">
+  <div class="pw-box">
+    <p class="pw-title">Open Road Life</p>
+    <p class="pw-sub">This is a private site for family & friends.<br>Enter the password to continue.</p>
+    <input class="pw-input" id="pw-input" type="password" placeholder="Password" autocomplete="off">
+    <button class="pw-btn" onclick="checkPassword()">Enter</button>
+    <p class="pw-error" id="pw-error"></p>
+    <p class="pw-hint">Need the password? Ask directly.</p>
+  </div>
+</div>
+
+<script>
+  // ── CHANGE THIS PASSWORD ──────────────────────────
+  const SITE_PASSWORD = 'openroadStein';
+  // ─────────────────────────────────────────────────
+
+  const SESSION_KEY = 'orl_auth';
+
+  function checkPassword() {
+    const input = document.getElementById('pw-input').value;
+    const error = document.getElementById('pw-error');
+    if (input === SITE_PASSWORD) {
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      document.getElementById('pw-overlay').classList.add('hidden');
+      error.textContent = '';
+    } else {
+      error.textContent = 'Incorrect password. Try again.';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+
+  // Allow pressing Enter to submit
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('pw-input').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') checkPassword();
+    });
+    // Stay unlocked within the same browser session
+    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+      document.getElementById('pw-overlay').classList.add('hidden');
+    }
+  });
+</script>
 
 <!-- NAV -->
 <nav>
