@@ -713,7 +713,26 @@
 
 <script>
   // ── CHANGE THIS PASSWORD ──────────────────────────
-  const SITE_PASSWORD = 'openroadStein';
+const SITE_HASH = 'bc179d939df56d51327185dacbfb0d61c21f9cbde86279a71c95509021408f59';
+
+function checkPassword() {
+  const input = document.getElementById('pw-input').value;
+  const error = document.getElementById('pw-error');
+  const encoder = new TextEncoder();
+  crypto.subtle.digest('SHA-256', encoder.encode(input)).then(buf => {
+    const hash = Array.from(new Uint8Array(buf))
+      .map(b => b.toString(16).padStart(2, '0')).join('');
+    if (hash === SITE_HASH) {
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      document.getElementById('pw-overlay').classList.add('hidden');
+      error.textContent = '';
+    } else {
+      error.textContent = 'Incorrect password. Try again.';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  });
+}
   // ─────────────────────────────────────────────────
 
   const SESSION_KEY = 'orl_auth';
