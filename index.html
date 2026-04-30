@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life on the Open Road</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FFFDF9;
+    --ink: #1C1A16;
+    --ink-muted: #5C5549;
+    --ink-faint: #A09A91;
+    --rust: #C4510A;
+    --rust-light: #F5E6D8;
+    --sage: #4A6741;
+    --sage-light: #E4EDE3;
+    --sky: #2D6A8F;
+    --sky-light: #DFF0F8;
+    --gold: #B8860B;
+    --border: rgba(28,26,22,0.12);
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --radius: 4px;
+    --radius-lg: 8px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--rust); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 92vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+  }
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8% 6% 8% 10%;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em { color: var(--rust); font-style: italic; }
+  .hero-desc {
+    font-size: 17px;
+    color: var(--ink-muted);
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1.5px solid transparent;
+  }
+  .btn-primary {
+    background: var(--rust);
+    color: #fff;
+    border-color: var(--rust);
+  }
+  .btn-primary:hover { background: #A8420A; border-color: #A8420A; }
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--border);
+  }
+  .btn-outline:hover { border-color: var(--ink-muted); }
+
+  .hero-visual {
+    position: relative;
+    background: var(--ink);
+    overflow: hidden;
+    min-height: 500px;
+  }
+  .hero-map {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  /* Illustrated US map silhouette */
+  .hero-map svg { width: 80%; opacity: 0.9; }
+  .route-path {
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    animation: drawRoute 3s ease forwards 0.5s;
+  }
+  @keyframes drawRoute {
+    to { stroke-dashoffset: 0; }
+  }
+  .map-dot {
+    opacity: 0;
+    animation: popDot 0.4s ease forwards;
+  }
+  .map-dot:nth-child(1) { animation-delay: 0.8s; }
+  .map-dot:nth-child(2) { animation-delay: 1.4s; }
+  .map-dot:nth-child(3) { animation-delay: 2.0s; }
+  .map-dot:nth-child(4) { animation-delay: 2.6s; }
+  @keyframes popDot {
+    from { opacity: 0; transform: scale(0); transform-origin: center; }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .hero-tag {
+    position: absolute;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    border-radius: var(--radius);
+    padding: 6px 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    font-family: var(--sans);
+  }
+  .hero-tag-1 { bottom: 30%; left: 8%; }
+  .hero-tag-2 { top: 28%; right: 6%; }
+  .hero-tag-3 { bottom: 15%; right: 12%; }
+
+  /* ── SECTION BASICS ── */
+  section { padding: 7rem 10%; }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .section-desc {
+    font-size: 16px;
+    color: var(--ink-muted);
+    max-width: 520px;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+  .section-header { margin-bottom: 3rem; }
+
+  /* ── TRIPS ── */
+  #trips { background: var(--warm-white); }
+  .trips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .trip-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .trip-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(28,26,22,0.10); }
+  .trip-img {
+    height: 200px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .trip-img-1 { background: linear-gradient(135deg, #C4510A22 0%, #C4510A55 100%); }
+  .trip-img-2 { background: linear-gradient(135deg, #2D6A8F22 0%, #2D6A8F55 100%); }
+  .trip-img-3 { background: linear-gradient(135deg, #4A674122 0%, #4A674155 100%); }
+  .trip-img-4 { background: linear-gradient(135deg, #B8860B22 0%, #B8860B55 100%); }
+  .trip-img-5 { background: linear-gradient(135deg, #8B4A7A22 0%, #8B4A7A55 100%); }
+  .trip-img-6 { background: linear-gradient(135deg, #2D6A8F22 0%, #4A674155 100%); }
+  .trip-placeholder {
+    font-size: 48px;
+    opacity: 0.5;
+  }
+  .trip-body { padding: 1.2rem 1.4rem 1.4rem; }
+  .trip-location {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+  .trip-name {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .trip-desc { font-size: 14px; color: var(--ink-muted); font-weight: 300; line-height: 1.6; }
+  .trip-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+  .trip-date { font-size: 12px; color: var(--ink-faint); }
+  .trip-count {
+    font-size: 12px;
+    background: var(--rust-light);
+    color: var(--rust);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* Photo upload CTA */
+  .add-trip {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 300px;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+    color: var(--ink-muted);
+  }
+  .add-trip:hover { border-color: var(--rust); color: var(--rust); background: var(--rust-light); }
+  .add-icon { font-size: 2rem; }
+  .add-label { font-size: 14px; font-weight: 500; }
+  .add-sub { font-size: 13px; opacity: 0.7; }
+
+  /* ── ABOUT ── */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8%;
+    align-items: center;
+  }
+  .about-portrait {
+    aspect-ratio: 4/5;
+    background: var(--ink);
+    border-radius: var(--radius-lg);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .portrait-placeholder {
+    font-size: 5rem;
+    opacity: 0.3;
+  }
+  .portrait-badge {
+    position: absolute;
+    bottom: 1.5rem; left: 1.5rem;
+    background: var(--rust);
+    color: white;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .about-text .section-title { margin-bottom: 1.5rem; }
+  .about-body {
+    font-size: 16px;
+    color: var(--ink-muted);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .stat { border-left: 2px solid var(--rust); padding-left: 1rem; }
+  .stat-num { font-family: var(--serif); font-size: 2rem; color: var(--ink); }
+  .stat-label { font-size: 13px; color: var(--ink-faint); }
+
+  /* ── HOBBIES ── */
+  #hobbies { background: var(--warm-white); }
+  .hobbies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  .hobby-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.6rem;
+    background: var(--cream);
+    transition: all 0.2s;
+  }
+  .hobby-card:hover { border-color: var(--sage); transform: translateY(-2px); }
+  .hobby-icon {
+    width: 48px; height: 48px;
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 1.2rem;
+  }
+  .h-sage { background: var(--sage-light); }
+  .h-sky { background: var(--sky-light); }
+  .h-rust { background: var(--rust-light); }
+  .h-gold { background: #F5EDD8; }
+  .hobby-name {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .hobby-desc { font-size: 14px; color: var(--ink-muted); font-weight: 300; line-height: 1.65; }
+
+  /* ── BLOG ── */
+  #stories { }
+  .stories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .story-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    background: var(--warm-white);
+    transition: all 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .story-card:hover { box-shadow: 0 8px 24px rgba(28,26,22,0.08); transform: translateY(-2px); }
+  .story-card.featured {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  .story-img {
+    aspect-ratio: 4/3;
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+  }
+  .s-rust { background: var(--rust-light); }
+  .s-sky { background: var(--sky-light); }
+  .s-sage { background: var(--sage-light); }
+  .story-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
+  .story-title {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+  .story-excerpt { font-size: 14px; color: var(--ink-muted); font-weight: 300; line-height: 1.7; }
+  .story-meta { margin-top: 1rem; font-size: 12px; color: var(--ink-faint); }
+
+  /* ── GALLERY STRIP ── */
+  .gallery-strip {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 2rem 10% 2rem;
+    background: var(--ink);
+    scrollbar-width: none;
+  }
+  .gallery-strip::-webkit-scrollbar { display: none; }
+  .gallery-thumb {
+    flex: 0 0 220px;
+    height: 160px;
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .gallery-thumb:hover { opacity: 1; transform: scale(1.03); }
+  .g1 { background: #2A2018; }
+  .g2 { background: #182028; }
+  .g3 { background: #18261C; }
+  .g4 { background: #261822; }
+  .g5 { background: #1E2818; }
+  .g6 { background: #281A14; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    padding: 3rem 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    color: rgba(255,255,255,0.85);
+  }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: rgba(255,255,255,0.85); }
+  .footer-copy { font-size: 12px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { min-height: 300px; }
+    #about { grid-template-columns: 1fr; }
+    .stories-grid { grid-template-columns: 1fr; }
+    .story-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+    nav { padding: 0 4%; }
+    .nav-links { gap: 1rem; }
+    section { padding: 5rem 6%; }
+  }
+
+  /* ── LETTERS ── */
+  #letters {
+    background: var(--ink);
+    color: rgba(255,255,255,0.88);
+    padding: 7rem 10%;
+  }
+  #letters .section-label { color: rgba(255,255,255,0.35); }
+  #letters .section-title { color: rgba(255,255,255,0.92); }
+  #letters .section-desc { color: rgba(255,255,255,0.5); }
+
+  .letters-intro {
+    max-width: 640px;
+    font-size: 17px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    line-height: 1.85;
+    margin-bottom: 3.5rem;
+    font-family: var(--serif);
+    font-style: italic;
+    border-left: 2px solid var(--rust);
+    padding-left: 1.5rem;
+  }
+
+  .letters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 3rem;
+  }
+
+  .letter-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-lg);
+    padding: 1.8rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+  }
+  .letter-card:hover {
+    background: rgba(255,255,255,0.09);
+    border-color: rgba(196,81,10,0.5);
+    transform: translateY(-3px);
+  }
+  .letter-card.sealed::after {
+    content: '🔒';
+    position: absolute;
+    top: 1.2rem; right: 1.2rem;
+    font-size: 14px;
+    opacity: 0.5;
+  }
+  .letter-to {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.7rem;
+    font-weight: 500;
+  }
+  .letter-title {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 0.6rem;
+    line-height: 1.35;
+  }
+  .letter-excerpt {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+    line-height: 1.65;
+    font-style: italic;
+  }
+  .letter-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .letter-date { font-size: 12px; color: rgba(255,255,255,0.25); }
+  .letter-arrow { font-size: 16px; color: rgba(255,255,255,0.2); transition: color 0.2s; }
+  .letter-card:hover .letter-arrow { color: var(--rust); }
+
+  .letter-add {
+    border: 1.5px dashed rgba(255,255,255,0.15);
+    border-radius: var(--radius-lg);
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 180px;
+    text-align: center;
+  }
+  .letter-add:hover { border-color: var(--rust); background: rgba(196,81,10,0.06); }
+  .letter-add-icon { font-size: 1.5rem; opacity: 0.4; }
+  .letter-add-label { font-size: 14px; color: rgba(255,255,255,0.4); font-weight: 400; }
+  .letter-add-sub { font-size: 12px; color: rgba(255,255,255,0.2); }
+
+  .letters-note {
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 1.2rem 1.6rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    max-width: 580px;
+  }
+  .letters-note-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+  .letters-note-text { font-size: 13px; color: rgba(255,255,255,0.35); line-height: 1.7; }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Open Road Life</a>
+  <ul class="nav-links">
+    <li><a href="#trips">Trips</a></li>
+    <li><a href="#hobbies">Hobbies</a></li>
+    <li><a href="#stories">Stories</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#letters" style="color:var(--rust);">Letters</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Life after the nine-to-five</p>
+    <h1 class="hero-title">Adventures,<br>hobbies & <em>stories</em><br>from the road</h1>
+    <p class="hero-desc">A personal space to share road trip memories, explore new passions, and stay connected with the people who matter most.</p>
+    <div class="hero-ctas">
+      <a href="#trips" class="btn btn-primary">See My Trips</a>
+      <a href="#about" class="btn btn-outline">About Me</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-map">
+      <!-- Simplified US road trip map illustration -->
+      <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background country silhouette (simplified) -->
+        <path d="M60,80 L80,60 L110,55 L140,48 L180,50 L220,45 L260,42 L300,40 L340,45 L380,50 L420,60 L450,80 L460,110 L455,140 L445,170 L440,200 L430,225 L410,240 L390,250 L360,255 L330,260 L300,265 L270,268 L240,270 L210,268 L180,265 L150,258 L120,248 L95,235 L75,215 L62,195 L55,170 L50,145 L55,115 Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+
+        <!-- Route line -->
+        <polyline class="route-path"
+          points="120,195 145,180 170,165 190,150 210,140 235,130 260,125 285,128 305,140 325,148 348,145 365,132 385,120 400,125 390,148 375,165 355,178 335,185"
+          fill="none" stroke="#C4510A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Dots group -->
+        <g class="map-dot"><circle cx="120" cy="195" r="7" fill="#C4510A"/><circle cx="120" cy="195" r="4" fill="white"/></g>
+        <g class="map-dot"><circle cx="235" cy="130" r="7" fill="#C4510A"/><circle cx="235" cy="130" r="4" fill="white"/></g>
+        <g class="map-dot"><circle cx="365" cy="132" r="7" fill="#C4510A"/><circle cx="365" cy="132" r="4" fill="white"/></g>
+        <g class="map-dot"><circle cx="335" cy="185" r="7" fill="#C4510A"/><circle cx="335" cy="185" r="4" fill="white"/></g>
+
+        <!-- Labels -->
+        <text x="108" y="215" font-family="'DM Sans', sans-serif" font-size="10" fill="rgba(255,255,255,0.6)">Start</text>
+        <text x="223" y="120" font-family="'DM Sans', sans-serif" font-size="10" fill="rgba(255,255,255,0.6)">Denver</text>
+        <text x="353" y="122" font-family="'DM Sans', sans-serif" font-size="10" fill="rgba(255,255,255,0.6)">Portland</text>
+        <text x="320" y="202" font-family="'DM Sans', sans-serif" font-size="10" fill="rgba(255,255,255,0.6)">Current</text>
+      </svg>
+    </div>
+    <div class="hero-tag hero-tag-1">📸 247 photos</div>
+    <div class="hero-tag hero-tag-2">🗺 8 states visited</div>
+    <div class="hero-tag hero-tag-3">⛽ 4,200 miles driven</div>
+  </div>
+</section>
+
+<!-- ROAD TRIPS -->
+<section id="trips" style="padding-left:10%;padding-right:10%;">
+  <div class="section-header fade-up">
+    <p class="section-label">Road Trips</p>
+    <h2 class="section-title">Miles of memories</h2>
+    <p class="section-desc">Each journey tells a story. Click any card to browse photos and notes from the road.</p>
+  </div>
+  <div class="trips-grid">
+    <a href="#" class="trip-card fade-up">
+      <div class="trip-img trip-img-1">
+        <!-- REPLACE: right-click your Google Photo → "Open image in new tab" → paste that URL below -->
+        <img src="" alt="The Southwest Loop"
+             onerror="this.style.display='none';this.parentNode.innerHTML+='🏜'"
+             style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="trip-body">
+        <p class="trip-location">Arizona · Utah</p>
+        <h3 class="trip-name">The Southwest Loop</h3>
+        <p class="trip-desc">Red rocks, canyon rims, and roadside diners. An unforgettable two-week tour through the desert southwest.</p>
+        <div class="trip-footer">
+          <span class="trip-date">October 2024</span>
+          <span class="trip-count">42 photos</span>
+        </div>
+      </div>
+    </a>
+    <a href="#" class="trip-card fade-up">
+      <div class="trip-img trip-img-2">
+        <!-- REPLACE: right-click your Google Photo → "Open image in new tab" → paste that URL below -->
+        <img src="" alt="Pacific Coast Highway"
+             onerror="this.style.display='none';this.parentNode.innerHTML+='🌊'"
+             style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="trip-body">
+        <p class="trip-location">Oregon · Washington</p>
+        <h3 class="trip-name">Pacific Coast Highway</h3>
+        <p class="trip-desc">Winding along the Oregon coast with its dramatic sea stacks, misty mornings, and fresh dungeness crab.</p>
+        <div class="trip-footer">
+          <span class="trip-date">July 2024</span>
+          <span class="trip-count">67 photos</span>
+        </div>
+      </div>
+    </a>
+    <a href="#" class="trip-card fade-up">
+      <div class="trip-img trip-img-3">
+        <!-- REPLACE: right-click your Google Photo → "Open image in new tab" → paste that URL below -->
+        <img src="" alt="Rocky Mountain High"
+             onerror="this.style.display='none';this.parentNode.innerHTML+='🏔'"
+             style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="trip-body">
+        <p class="trip-location">Colorado · Wyoming</p>
+        <h3 class="trip-name">Rocky Mountain High</h3>
+        <p class="trip-desc">Alpine lakes, wildflower meadows, and elk grazing at dawn. The Rockies never disappoint.</p>
+        <div class="trip-footer">
+          <span class="trip-date">August 2024</span>
+          <span class="trip-count">89 photos</span>
+        </div>
+      </div>
+    </a>
+    <!-- Add New Trip card -->
+    <div class="add-trip fade-up">
+      <span class="add-icon">+</span>
+      <span class="add-label">Add a new trip</span>
+      <span class="add-sub">Drop in photos & notes</span>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO STRIP — REPLACE each src="" with a Google Photos direct image URL -->
+<div class="gallery-strip">
+  <div class="gallery-thumb g1"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌄'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+  <div class="gallery-thumb g2"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌊'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+  <div class="gallery-thumb g3"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌲'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+  <div class="gallery-thumb g4"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🏜'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+  <div class="gallery-thumb g5"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='⛰'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+  <div class="gallery-thumb g6"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌅'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+  <div class="gallery-thumb g1"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🦌'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+  <div class="gallery-thumb g2"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌉'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+  <div class="gallery-thumb g3"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🏞'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+  <div class="gallery-thumb g4"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌺'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" style="padding-top:7rem;padding-bottom:7rem;padding-left:10%;padding-right:10%;">
+  <div class="about-portrait fade-up">
+    <!-- REPLACE: paste your Google Photos direct image URL below -->
+    <img src="" alt="Portrait"
+         onerror="this.style.display='none';this.parentNode.innerHTML+='<span class=\'portrait-placeholder\'>👤</span>'"
+         style="width:100%;height:100%;object-fit:cover;">
+    <div class="portrait-badge">Retired & loving it</div>
+  </div>
+  <div class="about-text fade-up">
+    <p class="section-label">About Me</p>
+    <h2 class="section-title">Hi, I'm [Your Name]</h2>
+    <p class="about-body">
+      After decades of deadlines and meetings, I finally traded the office for the open road. This site is my little corner of the internet to share what I'm seeing, doing, and learning in this next chapter.
+    </p>
+    <p class="about-body">
+      I'm passionate about photography, getting lost in a good book, fly fishing, and planning the next adventure. If it involves wide-open spaces and no cell service, I'm probably already on my way there.
+    </p>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-num">12</div>
+        <div class="stat-label">Trips taken</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">31</div>
+        <div class="stat-label">States visited</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Miles to go</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOBBIES -->
+<section id="hobbies">
+  <div class="section-header fade-up">
+    <p class="section-label">Hobbies & Interests</p>
+    <h2 class="section-title">What keeps me busy</h2>
+    <p class="section-desc">Retirement means finally having time for the things that matter. Here's what fills my days.</p>
+  </div>
+  <div class="hobbies-grid">
+    <div class="hobby-card fade-up">
+      <div class="hobby-icon h-rust">📷</div>
+      <h3 class="hobby-name">Photography</h3>
+      <p class="hobby-desc">Golden hour light chasing, landscape composition, and the joy of getting a shot just right. Shooting with a Sony A7 IV.</p>
+    </div>
+    <div class="hobby-card fade-up">
+      <div class="hobby-icon h-sky">🎣</div>
+      <h3 class="hobby-name">Fly Fishing</h3>
+      <p class="hobby-desc">Nothing beats wading a cold mountain stream at sunrise. Mostly catch-and-release, always in beautiful places.</p>
+    </div>
+    <div class="hobby-card fade-up">
+      <div class="hobby-icon h-sage">📚</div>
+      <h3 class="hobby-name">Reading</h3>
+      <p class="hobby-desc">History, adventure, and the occasional thriller. Always reading something on the road — ask me for recommendations.</p>
+    </div>
+    <div class="hobby-card fade-up">
+      <div class="hobby-icon h-gold">🍳</div>
+      <h3 class="hobby-name">Camp Cooking</h3>
+      <p class="hobby-desc">Turns out you can make pretty gourmet meals over a camp stove. Cast iron is non-negotiable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES -->
+<section id="stories" style="background: var(--warm-white);">
+  <div class="section-header fade-up">
+    <p class="section-label">From the Road</p>
+    <h2 class="section-title">Stories & notes</h2>
+    <p class="section-desc">Reflections, tips, and tales from life on the open road.</p>
+  </div>
+  <div class="stories-grid">
+    <a href="#" class="story-card featured fade-up">
+      <div class="story-img s-rust">🌅</div>
+      <div>
+        <span class="story-tag">Road Trip</span>
+        <h3 class="story-title">What I Learned Driving 4,000 Miles Alone Across the West</h3>
+        <p class="story-excerpt">Somewhere between the salt flats of Utah and the redwoods of Northern California, I stopped checking my phone and started actually looking out the window. Here's what I found.</p>
+        <p class="story-meta">June 12, 2024 · 8 min read</p>
+      </div>
+    </a>
+    <a href="#" class="story-card fade-up">
+      <div class="story-img s-sky" style="margin-bottom:1rem;">🎣</div>
+      <span class="story-tag">Hobbies</span>
+      <h3 class="story-title">Five Fly Fishing Spots Worth the Drive</h3>
+      <p class="story-excerpt">A roundup of the most memorable rivers I've fished since retiring, from Montana to New Mexico.</p>
+      <p class="story-meta">May 3, 2024 · 5 min read</p>
+    </a>
+    <a href="#" class="story-card fade-up">
+      <div class="story-img s-sage" style="margin-bottom:1rem;">⛺</div>
+      <span class="story-tag">Gear</span>
+      <h3 class="story-title">My Honest Camp Kitchen Setup After Two Years of Testing</h3>
+      <p class="story-excerpt">The gear I've kept, the stuff I ditched, and the one cast iron pan that goes everywhere with me.</p>
+      <p class="story-meta">April 18, 2024 · 6 min read</p>
+    </a>
+  </div>
+</section>
+
+<!-- LETTERS TO FAMILY -->
+<section id="letters">
+  <div class="section-header fade-up">
+    <p class="section-label">Letters to Family</p>
+    <h2 class="section-title">Words that last</h2>
+  </div>
+  <p class="letters-intro fade-up">
+    "Some things are too important to leave unsaid — and too personal to share over dinner. These are letters written for the people I love, to be read whenever they feel right."
+  </p>
+  <div class="letters-grid">
+    <a href="#" class="letter-card fade-up">
+      <p class="letter-to">To My Children</p>
+      <h3 class="letter-title">What I hope you carry with you</h3>
+      <p class="letter-excerpt">"The lessons I learned the hard way, and the ones I wish someone had told me sooner…"</p>
+      <div class="letter-footer">
+        <span class="letter-date">Written 2024</span>
+        <span class="letter-arrow">→</span>
+      </div>
+    </a>
+    <a href="#" class="letter-card fade-up">
+      <p class="letter-to">To My Grandchildren</p>
+      <h3 class="letter-title">On growing up and being lost — and why that's okay</h3>
+      <p class="letter-excerpt">"I was 34 before I knew what I was doing. Here's what I'd tell you if I could sit across the table…"</p>
+      <div class="letter-footer">
+        <span class="letter-date">Written 2024</span>
+        <span class="letter-arrow">→</span>
+      </div>
+    </a>
+    <a href="#" class="letter-card fade-up">
+      <p class="letter-to">To Anyone Reading This</p>
+      <h3 class="letter-title">A life well lived — what that actually means</h3>
+      <p class="letter-excerpt">"It wasn't the big moments. It was the mornings with coffee before anyone else woke up…"</p>
+      <div class="letter-footer">
+        <span class="letter-date">Written 2025</span>
+        <span class="letter-arrow">→</span>
+      </div>
+    </a>
+    <a href="#" class="letter-card sealed fade-up">
+      <p class="letter-to">To My Partner</p>
+      <h3 class="letter-title">Everything I never got around to saying</h3>
+      <p class="letter-excerpt">"You already know most of it. But some things deserve to be written down…"</p>
+      <div class="letter-footer">
+        <span class="letter-date">Private</span>
+        <span class="letter-arrow">→</span>
+      </div>
+    </a>
+    <div class="letter-add fade-up">
+      <span class="letter-add-icon">✦</span>
+      <span class="letter-add-label">Write a new letter</span>
+      <span class="letter-add-sub">Your words, for when it matters</span>
+    </div>
+  </div>
+  <div class="letters-note fade-up">
+    <span class="letters-note-icon">💛</span>
+    <p class="letters-note-text">These letters are shared freely — no obligation to read, no right time or wrong time. They're here whenever you want them, for as long as this site lives.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Open Road Life</div>
+  <nav class="footer-links">
+    <a href="#trips">Trips</a>
+    <a href="#hobbies">Hobbies</a>
+    <a href="#stories">Stories</a>
+    <a href="#about">About</a>
+    <a href="#letters">Letters</a>
+  </nav>
+  <p class="footer-copy">Made with care · Shared with love</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
