@@ -3,7 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Life on the Open Road</title>
+<title>Open Road Life — Trips, hobbies & stories</title>
+<meta name="description" content="A personal space to share road trip memories, hobbies, and stories from life on the open road.">
+<meta name="robots" content="noindex,nofollow">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Open Road Life">
+<meta property="og:description" content="Adventures, hobbies & stories from the road.">
+
+<!-- Favicon (inline SVG, no extra request) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%9B%A3%EF%B8%8F</text></svg>">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -12,41 +23,44 @@
 <body>
 
 <!-- PASSWORD OVERLAY -->
-<div id="pw-overlay">
+<div id="pw-overlay" role="dialog" aria-modal="true" aria-labelledby="pw-title">
   <div class="pw-box">
-    <p class="pw-title">Open Road Life</p>
-    <p class="pw-sub">This is a private site for family & friends.<br>Enter the password to continue.</p>
+    <p class="pw-title" id="pw-title">Open Road Life</p>
+    <p class="pw-sub">This is a private site for family &amp; friends.<br>Enter the password to continue.</p>
+    <label for="pw-input" class="visually-hidden">Site password</label>
     <input class="pw-input" id="pw-input" type="password" placeholder="Password" autocomplete="off">
-    <button class="pw-btn" onclick="checkPassword()">Enter</button>
-    <p class="pw-error" id="pw-error"></p>
+    <button class="pw-btn" id="pw-btn" type="button">Enter</button>
+    <p class="pw-error" id="pw-error" role="alert" aria-live="polite"></p>
     <p class="pw-hint">Need the password? Ask directly.</p>
   </div>
 </div>
 
 <!-- NAV -->
-<nav>
+<nav aria-label="Primary">
   <a href="#" class="nav-logo">Open Road Life</a>
   <ul class="nav-links">
     <li><a href="#trips">Trips</a></li>
     <li><a href="#hobbies">Hobbies</a></li>
     <li><a href="#stories">Stories</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#letters" style="color:var(--rust);">Letters</a></li>
+    <li><a href="#letters" class="nav-letters">Letters</a></li>
   </ul>
 </nav>
 
+<main>
+
 <!-- HERO -->
-<section class="hero" style="padding:0;">
+<section class="hero" aria-label="Introduction">
   <div class="hero-text">
     <p class="hero-eyebrow">Life after the nine-to-five</p>
-    <h1 class="hero-title">Adventures,<br>hobbies & <em>stories</em><br>from the road</h1>
+    <h1 class="hero-title">Adventures,<br>hobbies &amp; <em>stories</em><br>from the road</h1>
     <p class="hero-desc">A personal space to share road trip memories, explore new passions, and stay connected with the people who matter most.</p>
     <div class="hero-ctas">
       <a href="#trips" class="btn btn-primary">See My Trips</a>
       <a href="#about" class="btn btn-outline">About Me</a>
     </div>
   </div>
-  <div class="hero-visual">
+  <div class="hero-visual" aria-hidden="true">
     <div class="hero-map">
       <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg">
         <path d="M60,80 L80,60 L110,55 L140,48 L180,50 L220,45 L260,42 L300,40 L340,45 L380,50 L420,60 L450,80 L460,110 L455,140 L445,170 L440,200 L430,225 L410,240 L390,250 L360,255 L330,260 L300,265 L270,268 L240,270 L210,268 L180,265 L150,258 L120,248 L95,235 L75,215 L62,195 L55,170 L50,145 L55,115 Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
@@ -70,19 +84,17 @@
 </section>
 
 <!-- ROAD TRIPS -->
-<section id="trips" style="padding-left:10%;padding-right:10%;">
+<section id="trips" aria-labelledby="trips-title">
   <div class="section-header fade-up">
     <p class="section-label">Road Trips</p>
-    <h2 class="section-title">Miles of memories</h2>
+    <h2 class="section-title" id="trips-title">Miles of memories</h2>
     <p class="section-desc">Each journey tells a story. Click any card to browse photos and notes from the road.</p>
   </div>
   <div class="trips-grid">
+    <!-- To add a photo: paste a Google Photos direct URL into src="" -->
     <a href="#" class="trip-card fade-up">
       <div class="trip-img trip-img-1">
-        <!-- REPLACE: right-click your Google Photo → "Open image in new tab" → paste that URL below -->
-        <img src="" alt="The Southwest Loop"
-             onerror="this.style.display='none';this.parentNode.innerHTML+='🏜'"
-             style="width:100%;height:100%;object-fit:cover;">
+        <img src="" alt="" data-fallback="🏜" class="cover-img">
       </div>
       <div class="trip-body">
         <p class="trip-location">Arizona · Utah</p>
@@ -96,10 +108,7 @@
     </a>
     <a href="#" class="trip-card fade-up">
       <div class="trip-img trip-img-2">
-        <!-- REPLACE: right-click your Google Photo → "Open image in new tab" → paste that URL below -->
-        <img src="" alt="Pacific Coast Highway"
-             onerror="this.style.display='none';this.parentNode.innerHTML+='🌊'"
-             style="width:100%;height:100%;object-fit:cover;">
+        <img src="" alt="" data-fallback="🌊" class="cover-img">
       </div>
       <div class="trip-body">
         <p class="trip-location">Oregon · Washington</p>
@@ -113,10 +122,7 @@
     </a>
     <a href="#" class="trip-card fade-up">
       <div class="trip-img trip-img-3">
-        <!-- REPLACE: right-click your Google Photo → "Open image in new tab" → paste that URL below -->
-        <img src="" alt="Rocky Mountain High"
-             onerror="this.style.display='none';this.parentNode.innerHTML+='🏔'"
-             style="width:100%;height:100%;object-fit:cover;">
+        <img src="" alt="" data-fallback="🏔" class="cover-img">
       </div>
       <div class="trip-body">
         <p class="trip-location">Colorado · Wyoming</p>
@@ -129,40 +135,39 @@
       </div>
     </a>
     <!-- Add New Trip card -->
-    <div class="add-trip fade-up">
-      <span class="add-icon">+</span>
+    <button type="button" class="add-trip fade-up">
+      <span class="add-icon" aria-hidden="true">+</span>
       <span class="add-label">Add a new trip</span>
-      <span class="add-sub">Drop in photos & notes</span>
-    </div>
+      <span class="add-sub">Drop in photos &amp; notes</span>
+    </button>
   </div>
 </section>
 
-<!-- PHOTO STRIP — REPLACE each src="" with a Google Photos direct image URL -->
-<div class="gallery-strip">
-  <div class="gallery-thumb g1"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌄'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
-  <div class="gallery-thumb g2"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌊'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
-  <div class="gallery-thumb g3"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌲'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
-  <div class="gallery-thumb g4"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🏜'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
-  <div class="gallery-thumb g5"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='⛰'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
-  <div class="gallery-thumb g6"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌅'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
-  <div class="gallery-thumb g1"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🦌'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
-  <div class="gallery-thumb g2"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌉'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
-  <div class="gallery-thumb g3"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🏞'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
-  <div class="gallery-thumb g4"><img src="" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='🌺'" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+<!-- PHOTO STRIP — paste Google Photos direct URLs into each src="" below -->
+<div class="gallery-strip" role="region" aria-label="Photo gallery">
+  <div class="gallery-thumb g1"><img src="" alt="" data-fallback="🌄" class="cover-img"></div>
+  <div class="gallery-thumb g2"><img src="" alt="" data-fallback="🌊" class="cover-img"></div>
+  <div class="gallery-thumb g3"><img src="" alt="" data-fallback="🌲" class="cover-img"></div>
+  <div class="gallery-thumb g4"><img src="" alt="" data-fallback="🏜" class="cover-img"></div>
+  <div class="gallery-thumb g5"><img src="" alt="" data-fallback="⛰" class="cover-img"></div>
+  <div class="gallery-thumb g6"><img src="" alt="" data-fallback="🌅" class="cover-img"></div>
+  <div class="gallery-thumb g1"><img src="" alt="" data-fallback="🦌" class="cover-img"></div>
+  <div class="gallery-thumb g2"><img src="" alt="" data-fallback="🌉" class="cover-img"></div>
+  <div class="gallery-thumb g3"><img src="" alt="" data-fallback="🏞" class="cover-img"></div>
+  <div class="gallery-thumb g4"><img src="" alt="" data-fallback="🌺" class="cover-img"></div>
 </div>
 
 <!-- ABOUT -->
-<section id="about">
+<section id="about" aria-labelledby="about-title">
   <div class="about-portrait fade-up">
-    <!-- REPLACE: paste your Google Photos direct image URL below -->
-    <img src="" alt="Portrait"
-         onerror="this.style.display='none';this.parentNode.innerHTML+='<span class=\'portrait-placeholder\'>👤</span>'"
-         style="width:100%;height:100%;object-fit:cover;">
-    <div class="portrait-badge">Retired & loving it</div>
+    <!-- REPLACE: paste your Google Photos direct image URL into src="" -->
+    <img src="" alt="" data-fallback="👤" class="cover-img">
+    <div class="portrait-badge">Retired &amp; loving it</div>
   </div>
   <div class="about-text fade-up">
     <p class="section-label">About Me</p>
-    <h2 class="section-title">Hi, I'm [Your Name]</h2>
+    <!-- TODO: replace "Ashwani" below with the name you want shown publicly -->
+    <h2 class="section-title" id="about-title">Hi, I'm Ashwani</h2>
     <p class="about-body">
       After decades of deadlines and meetings, I finally traded the office for the open road. This site is my little corner of the internet to share what I'm seeing, doing, and learning in this next chapter.
     </p>
@@ -187,30 +192,30 @@
 </section>
 
 <!-- HOBBIES -->
-<section id="hobbies">
+<section id="hobbies" aria-labelledby="hobbies-title">
   <div class="section-header fade-up">
-    <p class="section-label">Hobbies & Interests</p>
-    <h2 class="section-title">What keeps me busy</h2>
+    <p class="section-label">Hobbies &amp; Interests</p>
+    <h2 class="section-title" id="hobbies-title">What keeps me busy</h2>
     <p class="section-desc">Retirement means finally having time for the things that matter. Here's what fills my days.</p>
   </div>
   <div class="hobbies-grid">
     <div class="hobby-card fade-up">
-      <div class="hobby-icon h-rust">📷</div>
+      <div class="hobby-icon h-rust" aria-hidden="true">📷</div>
       <h3 class="hobby-name">Photography</h3>
       <p class="hobby-desc">Golden hour light chasing, landscape composition, and the joy of getting a shot just right. Shooting with a Sony A7 IV.</p>
     </div>
     <div class="hobby-card fade-up">
-      <div class="hobby-icon h-sky">🎣</div>
+      <div class="hobby-icon h-sky" aria-hidden="true">🎣</div>
       <h3 class="hobby-name">Fly Fishing</h3>
       <p class="hobby-desc">Nothing beats wading a cold mountain stream at sunrise. Mostly catch-and-release, always in beautiful places.</p>
     </div>
     <div class="hobby-card fade-up">
-      <div class="hobby-icon h-sage">📚</div>
+      <div class="hobby-icon h-sage" aria-hidden="true">📚</div>
       <h3 class="hobby-name">Reading</h3>
       <p class="hobby-desc">History, adventure, and the occasional thriller. Always reading something on the road — ask me for recommendations.</p>
     </div>
     <div class="hobby-card fade-up">
-      <div class="hobby-icon h-gold">🍳</div>
+      <div class="hobby-icon h-gold" aria-hidden="true">🍳</div>
       <h3 class="hobby-name">Camp Cooking</h3>
       <p class="hobby-desc">Turns out you can make pretty gourmet meals over a camp stove. Cast iron is non-negotiable.</p>
     </div>
@@ -218,15 +223,15 @@
 </section>
 
 <!-- STORIES -->
-<section id="stories" style="background: var(--warm-white);">
+<section id="stories" aria-labelledby="stories-title">
   <div class="section-header fade-up">
     <p class="section-label">From the Road</p>
-    <h2 class="section-title">Stories & notes</h2>
+    <h2 class="section-title" id="stories-title">Stories &amp; notes</h2>
     <p class="section-desc">Reflections, tips, and tales from life on the open road.</p>
   </div>
   <div class="stories-grid">
     <a href="#" class="story-card featured fade-up">
-      <div class="story-img s-rust">🌅</div>
+      <div class="story-img s-rust" aria-hidden="true">🌅</div>
       <div>
         <span class="story-tag">Road Trip</span>
         <h3 class="story-title">What I Learned Driving 4,000 Miles Alone Across the West</h3>
@@ -235,14 +240,14 @@
       </div>
     </a>
     <a href="#" class="story-card fade-up">
-      <div class="story-img s-sky" style="margin-bottom:1rem;">🎣</div>
+      <div class="story-img s-sky" aria-hidden="true">🎣</div>
       <span class="story-tag">Hobbies</span>
       <h3 class="story-title">Five Fly Fishing Spots Worth the Drive</h3>
       <p class="story-excerpt">A roundup of the most memorable rivers I've fished since retiring, from Montana to New Mexico.</p>
       <p class="story-meta">May 3, 2024 · 5 min read</p>
     </a>
     <a href="#" class="story-card fade-up">
-      <div class="story-img s-sage" style="margin-bottom:1rem;">⛺</div>
+      <div class="story-img s-sage" aria-hidden="true">⛺</div>
       <span class="story-tag">Gear</span>
       <h3 class="story-title">My Honest Camp Kitchen Setup After Two Years of Testing</h3>
       <p class="story-excerpt">The gear I've kept, the stuff I ditched, and the one cast iron pan that goes everywhere with me.</p>
@@ -252,10 +257,10 @@
 </section>
 
 <!-- LETTERS TO FAMILY -->
-<section id="letters">
+<section id="letters" aria-labelledby="letters-title">
   <div class="section-header fade-up">
     <p class="section-label">Letters to Family</p>
-    <h2 class="section-title">Words that last</h2>
+    <h2 class="section-title" id="letters-title">Words that last</h2>
   </div>
   <p class="letters-intro fade-up">
     "Some things are too important to leave unsaid — and too personal to share over dinner. These are letters written for the people I love, to be read whenever they feel right."
@@ -267,7 +272,7 @@
       <p class="letter-excerpt">"The lessons I learned the hard way, and the ones I wish someone had told me sooner…"</p>
       <div class="letter-footer">
         <span class="letter-date">Written 2024</span>
-        <span class="letter-arrow">→</span>
+        <span class="letter-arrow" aria-hidden="true">→</span>
       </div>
     </a>
     <a href="#" class="letter-card fade-up">
@@ -276,7 +281,7 @@
       <p class="letter-excerpt">"I was 34 before I knew what I was doing. Here's what I'd tell you if I could sit across the table…"</p>
       <div class="letter-footer">
         <span class="letter-date">Written 2024</span>
-        <span class="letter-arrow">→</span>
+        <span class="letter-arrow" aria-hidden="true">→</span>
       </div>
     </a>
     <a href="#" class="letter-card fade-up">
@@ -285,34 +290,36 @@
       <p class="letter-excerpt">"It wasn't the big moments. It was the mornings with coffee before anyone else woke up…"</p>
       <div class="letter-footer">
         <span class="letter-date">Written 2025</span>
-        <span class="letter-arrow">→</span>
+        <span class="letter-arrow" aria-hidden="true">→</span>
       </div>
     </a>
-    <a href="#" class="letter-card sealed fade-up">
+    <a href="#" class="letter-card sealed fade-up" aria-label="To My Partner — sealed letter">
       <p class="letter-to">To My Partner</p>
       <h3 class="letter-title">Everything I never got around to saying</h3>
       <p class="letter-excerpt">"You already know most of it. But some things deserve to be written down…"</p>
       <div class="letter-footer">
         <span class="letter-date">Private</span>
-        <span class="letter-arrow">→</span>
+        <span class="letter-arrow" aria-hidden="true">→</span>
       </div>
     </a>
-    <div class="letter-add fade-up">
-      <span class="letter-add-icon">✦</span>
+    <button type="button" class="letter-add fade-up">
+      <span class="letter-add-icon" aria-hidden="true">✦</span>
       <span class="letter-add-label">Write a new letter</span>
       <span class="letter-add-sub">Your words, for when it matters</span>
-    </div>
+    </button>
   </div>
   <div class="letters-note fade-up">
-    <span class="letters-note-icon">💛</span>
+    <span class="letters-note-icon" aria-hidden="true">💛</span>
     <p class="letters-note-text">These letters are shared freely — no obligation to read, no right time or wrong time. They're here whenever you want them, for as long as this site lives.</p>
   </div>
 </section>
 
+</main>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Open Road Life</div>
-  <nav class="footer-links">
+  <nav class="footer-links" aria-label="Footer">
     <a href="#trips">Trips</a>
     <a href="#hobbies">Hobbies</a>
     <a href="#stories">Stories</a>

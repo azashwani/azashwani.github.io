@@ -1,6 +1,35 @@
 /* ── RESET & ROOT ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── UTILITIES ── */
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gallery-thumb .cover-img { border-radius: var(--radius); }
+.fallback-emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 2.5rem;
+  opacity: 0.7;
+}
+.trip-img .fallback-emoji { font-size: 3rem; opacity: 1; }
+.about-portrait .fallback-emoji { font-size: 5rem; opacity: 0.3; }
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 :root {
   --cream: #FAF7F2;
   --warm-white: #FFFDF9;
@@ -63,12 +92,16 @@ nav {
 }
 .nav-links a:hover { color: var(--rust); }
 
+/* ── NAV LETTERS LINK ── */
+.nav-letters { color: var(--rust); }
+
 /* ── HERO ── */
 .hero {
   min-height: 92vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
+  padding: 0;
   overflow: hidden;
 }
 .hero-text {
@@ -177,7 +210,7 @@ nav {
 .hero-tag-3 { bottom: 15%; right: 12%; }
 
 /* ── SECTION BASICS ── */
-section { padding: 7rem 10%; }
+section { padding: 7rem 10%; scroll-margin-top: 60px; }
 .section-label {
   font-size: 11px;
   letter-spacing: 0.16em;
@@ -280,7 +313,10 @@ section { padding: 7rem 10%; }
   transition: all 0.2s;
   background: transparent;
   color: var(--ink-muted);
+  font-family: inherit;
+  width: 100%;
 }
+.add-trip:focus-visible { outline: 2px solid var(--rust); outline-offset: 2px; }
 .add-trip:hover { border-color: var(--rust); color: var(--rust); background: var(--rust-light); }
 .add-icon { font-size: 2rem; }
 .add-label { font-size: 14px; font-weight: 500; }
@@ -367,6 +403,8 @@ section { padding: 7rem 10%; }
 .hobby-desc { font-size: 14px; color: var(--ink-muted); font-weight: 300; line-height: 1.65; }
 
 /* ── BLOG / STORIES ── */
+#stories { background: var(--warm-white); }
+.story-card:not(.featured) .story-img { margin-bottom: 1rem; }
 .stories-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -547,7 +585,12 @@ section { padding: 7rem 10%; }
   transition: all 0.2s;
   min-height: 180px;
   text-align: center;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  width: 100%;
 }
+.letter-add:focus-visible { outline: 2px solid var(--rust); outline-offset: 2px; }
 .letter-add:hover { border-color: var(--rust); background: rgba(196,81,10,0.06); }
 .letter-add-icon { font-size: 1.5rem; opacity: 0.4; }
 .letter-add-label { font-size: 14px; color: rgba(255,255,255,0.4); font-weight: 400; }
@@ -672,6 +715,21 @@ footer {
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .fade-up.visible { opacity: 1; transform: none; }
+
+/* Respect users who don't want motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fade-up { opacity: 1; transform: none; transition: none; }
+  .route-path { stroke-dashoffset: 0; animation: none; }
+  .map-dot { opacity: 1; animation: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Visible focus styles for keyboard users */
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
