@@ -1,10 +1,29 @@
 # azashwani.github.io
 
-//From claude!
-Here are your three files. Here's a quick summary of what's in each:
+# Open Road Life — Site Files
 
-index.html — just your page content (sections, text, images). This is the one you'll edit most often when adding trips, updating stats, or changing your bio.
-style.css — all the colors, fonts, and layout. Touch this if you ever want to change how something looks.
-main.js — the password logic and scroll animations. Also has clear instructions at the top for updating your password hash when you're ready.
+## index.html
+Your page content. Edit this file when you want to:
+- Add or update a trip card
+- Change your bio, name, or stats
+- Add a new story or letter
+- Update the hero text or photo strip
 
-To upload to GitHub, just drag all three files into your repository at the same time. They need to sit together in the same folder (the root) so they can find each other.
+## style.css
+All colors, fonts, and layout. Edit this file when you want to:
+- Change the color scheme
+- Adjust spacing or sizing
+- Modify how a section looks
+
+## main.js
+Password logic and scroll animations. Edit this file when you want to:
+- Update your site password (instructions are at the top of the file)
+- Change any interactive behavior
+
+---
+To update the password:
+1. Open browser console (F12 → Console tab)
+2. Run this, replacing 'yournewpassword' with your actual password:
+   crypto.subtle.digest('SHA-256', new TextEncoder().encode('yournewpassword'))
+     .then(buf => console.log(Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('')))
+3. Copy the result and replace the SITE_HASH value in main.js
