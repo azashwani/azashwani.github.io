@@ -1,0 +1,162 @@
+THE NEXT CHAPTER — Site Review & Future Improvements
+======================================================
+Reviewed: May 2026
+Files: index.html · style.css · main.js
+
+
+QUICK SUMMARY
+-------------
+The site is well-built for a personal static GitHub Pages project. The design is
+clean, typography is strong (Playfair Display + DM Sans pairing), and solid
+accessibility basics are in place (ARIA roles, focus traps, reduced-motion support,
+keyboard navigation). The main gap right now is that most content is placeholder —
+images are empty, links go nowhere, and buttons do nothing. The suggestions below
+are ranked from highest to lowest impact.
+
+
+CONTENT (fill these in first)
+------------------------------
+1. ADD REAL PHOTOS
+   All <img src=""> tags are empty and fall back to emoji placeholders.
+   - Paste direct Google Photos or hosted image URLs into each src="" attribute
+   - Update alt="" text to describe each photo (important for screen readers)
+   - Sections affected: trip cards, gallery strip, about portrait
+
+2. WIRE UP TRIP CARDS
+   All three trip cards and "Add a new trip" link to href="#".
+   Options (pick one):
+   a. Create individual HTML pages per trip (trip-southwest.html, etc.) and update href
+   b. Build a lightbox/modal in main.js that opens a photo gallery inline
+   c. Link directly to a Google Photos shared album URL
+
+3. WIRE UP STORIES
+   The three story cards all link to href="#". Either:
+   a. Create separate story pages (stories/southwest.html, etc.)
+   b. Use a simple accordion/expand pattern inside the existing page
+
+4. WIRE UP LETTERS
+   Letter cards link to href="#". Since these are private/personal, consider:
+   a. Separate password-protected HTML pages per letter
+   b. A modal with a secondary password prompt for the "sealed" (partner) letter
+
+5. UPDATE HARDCODED STATS
+   "12 trips · 31 states · ∞ miles" in the About section are hardcoded.
+   Update these when actual trip data changes.
+
+
+NAVIGATION & MOBILE
+--------------------
+6. ADD A MOBILE HAMBURGER MENU
+   At ≤900px the nav links collapse but there is no menu toggle. On very small
+   screens (375px) the links overflow horizontally.
+   Fix: add a hamburger button that toggles a dropdown/drawer in main.js,
+   and hide .nav-links by default at small breakpoints via CSS.
+
+7. ADD A MOBILE BREAKPOINT FOR VERY SMALL SCREENS
+   style.css has one breakpoint at 900px but nothing below ~480px.
+   Some paddings (section: 5rem 6%) and font sizes feel large on a phone.
+   Consider adding a @media (max-width: 480px) block for tighter spacing.
+
+
+INTERACTIVE FEATURES
+--------------------
+8. "ADD A NEW TRIP" BUTTON HAS NO FUNCTIONALITY
+   index.html line 138 — the <button> does nothing on click.
+   Options: open a mailto link pre-filled with a template, or link to a
+   Google Form that feeds trip data back to you.
+
+9. "WRITE A NEW LETTER" BUTTON HAS NO FUNCTIONALITY
+   index.html line 305 — same issue. A simple mailto: with a subject line
+   ("New Letter draft") would at least make it feel connected.
+
+10. GALLERY STRIP — NO CLICK BEHAVIOR
+    The gallery thumbs have cursor: pointer and a hover effect but clicking
+    does nothing. Even a simple full-screen lightbox would complete the UX.
+
+
+SECURITY & PRIVACY
+-------------------
+11. PASSWORD IS A SOFT GATE (by design, but worth knowing)
+    main.js line 2-4 documents this clearly: the HTML is still visible in
+    browser source without a password. The SHA-256 hash in SITE_HASH is
+    also inspectable, and can be cracked with a dictionary attack if the
+    password is a common word.
+    If real privacy matters: use Cloudflare Access (free tier), Netlify
+    Identity, or GitHub Pages + a private repo with a CI-generated token.
+
+12. SESSION STORAGE CLEARS ON TAB CLOSE
+    sessionStorage.setItem means every new browser session re-prompts for
+    the password. If that's intentional, fine. If you want "remember me
+    across sessions," switch to localStorage with a reasonable expiry:
+    localStorage.setItem('orl_auth_expires', Date.now() + 7*24*60*60*1000)
+
+
+SEO & DISCOVERABILITY
+----------------------
+13. noindex,nofollow META TAG
+    index.html line 8 — <meta name="robots" content="noindex,nofollow">
+    prevents Google from indexing the site. This is intentional for a
+    private site. Remove it if you ever want the site to be publicly findable.
+
+14. MISSING og:image META TAG
+    index.html line 11-13 — Open Graph tags are present but og:image is
+    missing. When you share the link on iMessage, WhatsApp, etc., no
+    thumbnail preview will appear. Add:
+    <meta property="og:image" content="https://your-hosted-image-url.jpg">
+
+15. NO 404 PAGE
+    GitHub Pages serves a generic 404 for missing URLs. Add a 404.html
+    in the repo root with the same nav/footer so broken links stay on-brand.
+
+
+PERFORMANCE
+-----------
+16. GOOGLE FONTS ARE BLOCKING
+    The site loads Playfair Display + DM Sans from Google Fonts. This is a
+    render-blocking request. Two options:
+    a. Add font-display: swap to the Google Fonts URL:
+       ?display=swap is already present — confirm it's loading correctly.
+    b. Self-host the font files and serve them from the repo (zero latency).
+
+17. NO IMAGE LAZY LOADING
+    When you do add real images, add loading="lazy" to all <img> tags
+    below the fold to avoid loading all photos on page open.
+
+
+NICE-TO-HAVE ADDITIONS
+-----------------------
+18. DARK MODE SUPPORT
+    style.css handles prefers-reduced-motion but not prefers-color-scheme.
+    The dark Letters and Hero sections already use dark backgrounds, so a
+    full dark-mode toggle would be a relatively small CSS addition.
+
+19. A SIMPLE SEARCH OR FILTER ON TRIPS
+    Once you have 6+ trips, a text-filter input (client-side, no server
+    needed) would make it easy to find a specific trip.
+
+20. TRIP COUNT BADGE ON NAV
+    A small badge like "Trips (3)" on the nav link gives a quick sense of
+    content volume and updates as you add cards.
+
+21. PRINT STYLESHEET FOR LETTERS
+    The Letters section would print much better with a @media print block
+    that hides nav, hero, and uses black text on white.
+
+22. OG:URL AND CANONICAL LINK
+    Add <link rel="canonical" href="https://azashwani.github.io/"> and
+    <meta property="og:url" content="https://azashwani.github.io/"> so
+    social crawlers and search engines agree on the canonical address.
+
+
+THINGS THAT ARE ALREADY GOOD — DON'T CHANGE
+--------------------------------------------
+- Inline SVG favicon (no extra network request)
+- prefers-reduced-motion respected in CSS and SVG animation
+- Focus trap on password overlay
+- visually-hidden class for screen-reader-only labels
+- Image fallback system (data-fallback emoji) is clean and unobtrusive
+- CSS custom properties (variables) make theming easy
+- IntersectionObserver stagger on .fade-up is smooth and performant
+- scroll-margin-top: 60px on sections prevents anchors from hiding under the sticky nav
+- SHA-256 password hashing (better than plaintext)
+- Font preconnect hints for Google Fonts
