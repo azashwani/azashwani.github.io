@@ -1,8 +1,85 @@
-# ClaudePro.md — Site Improvements Session
+# ClaudePro.md — Site Improvements Log
 
-Snapshot of changes made on **May 10, 2026** during a Claude session, plus context and open items to pick up later.
+Snapshot of all Claude sessions, latest changes at the top.
 
-## TL;DR
+---
+
+## Session — May 15, 2026 (Story-first redesign)
+
+### What changed
+
+**Redesigned the homepage to be story-first, not photo/trip-first.**
+
+#### Layout changes
+- **Hero right panel** — replaced the animated route map + photo-count tags with a dark "Latest Story" card showing the story title, a pull quote, tag, read time, and a "Read Story →" link. Story count ("14 stories written") sits quietly in the corner.
+- **Stories section moved to first** — it now appears immediately after the hero, before Trips.
+- **Featured essay block** — large editorial card at the top of the Stories section for the most important piece. Has a title, full excerpt, art panel on the right with a pull quote.
+- **Story cards** — 4-card grid below the featured block. Each card has a colored art band, category tag, title, excerpt, and read time.
+- **Trips redesigned** — changed from photo album cards to an editorial row list: emoji icon + title + description + "X stories" pill. Cleaner, less photo-dependent.
+- **Photo gallery strip removed** — the scrolling dark strip of photo thumbnails is gone entirely.
+
+#### Story content
+All stories are now **general life reflections**, not trip-specific:
+- Featured: "The Thing Nobody Tells You About Slowing Down" (on learning to be still after a busy career)
+- "What My Kids Got Right That I Had to Learn the Hard Way" (Family)
+- "On Starting Over at an Age When You're Supposed to Be Done" (Change)
+- "The Books That Quietly Changed How I Think About Time" (Reading)
+- "The Friendships That Survived — and the Ones That Didn't" (Friendship)
+
+#### Style cleanup (same session)
+- Hero story tag changed from a pill/badge with background to plain uppercase text
+- "Read Story →" link: removed the `border-bottom` underline, now clean small-caps
+- Hero pull quote: removed the left border, just plain italic text
+- Story category tags (REFLECTION, FAMILY, etc.): changed from green to subtle gray — less loud
+- Dot separator between tag and read-time is now CSS-only (no extra HTML element)
+
+### How to add a new story
+
+Everything is **hardcoded HTML** — there is no CMS or database. The "Write a new story" button on the page is a placeholder with no function.
+
+**To add a story card to the grid:**
+
+1. Open `index.html`
+2. Find the `<!-- Story grid -->` comment inside `<section id="stories">`
+3. Copy one of the existing `<a href="#" class="story-card fade-up">` blocks
+4. Paste it before the `<button class="story-add">` element
+5. Update: emoji in `story-card-art`, the tag text, `story-title`, `story-excerpt`, and the date/read-time in `story-byline`
+6. Change the art color class: `sc-sky` (blue), `sc-sage` (green), `sc-gold` (gold), `sc-rust` (orange)
+
+**To update the featured essay (big card at the top of Stories):**
+
+Find the `<a href="#" class="story-feature fade-up">` block and update:
+- `story-tag` — category label
+- `story-feature-title` — headline
+- `story-feature-excerpt` — paragraph excerpt
+- `story-byline` — date, read time, type
+- `story-feature-art` — change the emoji
+- `story-feature-quote` — the italic pull quote on the right
+
+**To update the hero "Latest Story" card (top right of page):**
+
+Find `<div class="hero-story-card">` and update:
+- `hero-story-title` — headline
+- `hero-story-pull` — the italic quote shown below
+- `hero-story-tag` — category (e.g. Reflection, Family)
+- `hero-story-time` — read time and date
+
+**To add a trip:**
+
+Find `<div class="trips-list">` and copy one `<a href="#" class="trip-row fade-up">` block. Update the emoji, location, title, description, date, and story count. Change the marker color class: `trip-marker-rust`, `trip-marker-sky`, or `trip-marker-sage`.
+
+### Rollback
+
+```bash
+# Go back to before today's redesign
+git checkout 32e6b15 -- index.html style.css
+```
+
+---
+
+## Session — May 10, 2026 (Code quality cleanup)
+
+### TL;DR
 
 Code-quality cleanup of the static site (`index.html`, `style.css`, `main.js`). Same look and behavior, cleaner internals. **No auth changes** — the password gate is still client-side only, which means anyone can View Source and read all content. See "The privacy caveat" below.
 
