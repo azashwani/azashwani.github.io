@@ -175,63 +175,64 @@ nav {
   z-index: 2;
 }
 .hero-story-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.14em;
+  font-size: 10px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--rust);
+  color: rgba(196,81,10,0.8);
   font-weight: 500;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 .hero-story-title {
   font-family: var(--serif);
-  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
   color: rgba(255,255,255,0.92);
-  line-height: 1.25;
+  line-height: 1.3;
   letter-spacing: -0.02em;
   margin-bottom: 1.2rem;
 }
 .hero-story-pull {
   font-size: 14px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.4);
   font-style: italic;
   font-family: var(--serif);
-  line-height: 1.75;
-  margin-bottom: 1.4rem;
-  border-left: 2px solid rgba(196,81,10,0.5);
-  padding-left: 1rem;
+  line-height: 1.8;
+  margin-bottom: 1.6rem;
 }
 .hero-story-meta {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: 0.6rem;
+  margin-bottom: 1.8rem;
 }
 .hero-story-tag {
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  background: rgba(196,81,10,0.2);
-  color: var(--rust);
-  padding: 3px 10px;
-  border-radius: 20px;
+  color: rgba(196,81,10,0.9);
   font-weight: 500;
+}
+.hero-story-time::before {
+  content: '·';
+  margin-right: 0.6rem;
+  color: rgba(255,255,255,0.15);
 }
 .hero-story-time {
   font-size: 12px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.28);
 }
 .hero-story-link {
-  display: inline-block;
-  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
   font-weight: 500;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255,255,255,0.6);
   text-decoration: none;
-  letter-spacing: 0.02em;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  padding-bottom: 2px;
-  transition: border-color 0.2s, color 0.2s;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color 0.2s;
 }
-.hero-story-link:hover { color: white; border-color: var(--rust); }
+.hero-story-link:hover { color: rgba(255,255,255,0.95); }
 
 .hero-story-count {
   position: absolute;
@@ -394,11 +395,11 @@ section { padding: 7rem 10%; scroll-margin-top: 60px; }
 
 .story-tag {
   display: inline-block;
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: 10px;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--sage);
-  margin-bottom: 0.5rem;
+  color: var(--ink-faint);
+  margin-bottom: 0.6rem;
   font-weight: 500;
 }
 .story-title {
