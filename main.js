@@ -7,7 +7,7 @@
 // 2. Run: crypto.subtle.digest('SHA-256', new TextEncoder().encode('yournewpassword'))
 //         .then(buf => console.log(Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('')))
 // 3. Replace SITE_HASH below with the result
-const SITE_HASH = 'b4907a1f2717226b7483874cee5adb1843b0c4676091c6d983c4b1094445ed6f';
+const SITE_HASH = '8cc8cc4129b4b237d7b460c0848ef5cc3a21dd7d4d24eda19d6d3da741709eb5';
 // ──────────────────────────────────────────────────
 
 const SESSION_KEY = 'orl_auth';
